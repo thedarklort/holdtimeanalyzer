@@ -65,8 +65,8 @@ public class Program
     // Calculate the hold times for the replay and filter them to only include hold times below 100ms.
     Replay replay = ReplayDecoder.Decode(replayFile);
     (HoldTimes Key1, HoldTimes Key2) holdTimes = HoldTimeAnalyzer.CalculateHoldTimes(replay);
-    HoldTimes filteredKey1 = new HoldTimes(holdTimes.Key1.Where(x => x.Key <= 100));
-    HoldTimes filteredKey2 = new HoldTimes(holdTimes.Key2.Where(x => x.Key <= 100));
+    HoldTimes filteredKey1 = new HoldTimes(holdTimes.Key1.Where(x => x.Key <= 200));
+    HoldTimes filteredKey2 = new HoldTimes(holdTimes.Key2.Where(x => x.Key <= 200));
 
     // If no significant hold times were found, skip the replay.
     if (!filteredKey1.Any() && !filteredKey2.Any())
@@ -87,8 +87,8 @@ public class Program
     plot.Legend.Alignment = Alignment.UpperRight;
 
     // Configure the limits for the axes, depending on the bounds of the hold times.
-    plot.Axes.Bottom.Min = filteredKey1.Concat(filteredKey2).Min(x => x.Key) - 1;
-    plot.Axes.Bottom.Max = filteredKey1.Concat(filteredKey2).Max(x => x.Key) + 1;
+    plot.Axes.Bottom.Min = 0;
+    plot.Axes.Bottom.Max = 200;
     plot.Axes.Left.Min = 0;
     plot.Axes.Left.Max = (int)(filteredKey1.Concat(filteredKey2).Max(x => x.Value) * 1.05) + 1;
 
